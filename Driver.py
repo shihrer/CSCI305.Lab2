@@ -8,10 +8,16 @@
 
 class Lab_2:
     def __init__(self, file_name):
-        self.file = file_name
+        self.build_structure(file_name)
+        self.city_nodes = []
 
     def start_lab(self):
         self.menu()
+
+    def build_structure(self, file_name):
+        city_file = open(file_name, "r")
+
+        print(city_file.read())
 
     def task1(self):
         city = input("Enter a city > ")
@@ -53,6 +59,15 @@ class Lab_2:
                 self.task4()
             else:
                 print("That is not a valid choice. Please pick again from 1, 2, 3, or 4.")
+
+
+class City_Node:
+    def __init__(self, city_name):
+        self.city = city_name
+        self.edges = []
+
+    def add_edge(self, connected_node, weight):
+        self.edges.add((connected_node, weight))
 
 if __name__ == "__main__":
     the_lab = Lab_2("city1.txt")
