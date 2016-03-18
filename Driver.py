@@ -65,7 +65,18 @@ class Lab_2:
         :return: Yes/No string and solution
         Determine if there is a k-hop connection between two cities.
         """
-        return 0
+
+        try:
+            path = nx.shortest_path(self.graph, source, destination)
+            k = len(path) - 1
+
+            if k <= d:
+                return "YES\nd-hops: {}\n{}".format(k, path)
+            else:
+                return "NO"
+
+        except nx.NetworkXNoPath:
+            return "NO"
 
     def task4(self, source, destination):
         """
@@ -104,7 +115,7 @@ class Lab_2:
                     int_input = input("Enter a d-hop > ")
                     valid_input = self.is_valid_input(int_input)
 
-                self.task3(source, destination, int_input)
+                print(self.task3(source, destination, int(int_input)))
             elif choice == '4':
                 self.task4()
             elif choice.lower() == 'e':
