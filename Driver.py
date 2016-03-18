@@ -5,32 +5,70 @@
 # TODO: Task 3 - Determine whether there is a k-hop connection between two inputs.  Print one solution.  k <= d
 # TODO: Task 4 - Determine whether or not there is a connection between two inputs.  Print one solution.
 
+import networkx as nx
+import re
+
 
 class Lab_2:
     def __init__(self, file_name):
-        self.build_structure(file_name)
         self.city_nodes = []
+        self.graph = nx.Graph()
+        self.build_structure(file_name)
 
     def start_lab(self):
         self.menu()
 
     def build_structure(self, file_name):
-        city_file = open(file_name, "r")
+        """
+        :param file_name: Name of file to build graph from.
+        Builds the graph from a given file name.
+        """
+        for edge in self.read_file(file_name):
+            self.graph.add_edge(edge[0],edge[1],object=edge[2])
 
-        print(city_file.read())
+    @staticmethod
+    def read_file(file):
+        """
+        Creates a generator for reading a file line by line.
+        :param file: Name of file to open.
+        :return: Three tuple (Origin, Destination, Miles)
+        """
+        with open(file, "r") as the_file:
+            for line in the_file:
+                line = line.strip()
+                if line != "" and not re.match("--+|From\s+To\s+Miles", line):
+                    result = re.split("\s\s+", line)
+                    yield result[0], result[1], int(result[2])
 
     def task1(self):
+        """
+        Find the number of cities directly connected to a given city.
+        """
         city = input("Enter a city > ")
         connections = str(len(d[city]))  # 'd' is the dict. Change the name to whatever you want
         print("%s has %s connections.") % (city, connections)
 
     def task2(self):
+        """
+        :return: Yes/No string
+        Determine if there is a direct connection between two cities.
+        """
         return 0
 
-    def task3(self):
+    def task3(self, d):
+        """
+        :param d: Integer for d-hop
+        :return: Yes/No string and solution
+        Determine if there is a k-hop connection between two cities.
+        """
         return 0
 
     def task4(self):
+        """
+
+        :return: Yes/No string and solution
+        Determine if there is a connection between two cities and output one out.
+        """
         return 0
 
     def store_cities(f):
