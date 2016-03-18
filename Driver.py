@@ -35,8 +35,8 @@ class Lab_2:
         """
         with open(file, "r") as the_file:
             for line in the_file:
-                line = line.strip()
-                if line != "" and not re.match("--+|From\s+To\s+Miles", line):
+                line = line.strip().lower()
+                if line != "" and not re.match("--+|from\s+to\s+miles", line):
                     result = re.split("\s\s+", line)
                     yield result[0], result[1], int(result[2])
 
@@ -45,8 +45,8 @@ class Lab_2:
         Find the number of cities directly connected to a given city.
         """
         city = input("Enter a city > ")
-        connections = str(len(d[city]))  # 'd' is the dict. Change the name to whatever you want
-        print("%s has %s connections.") % (city, connections)
+        city_neighbors = self.graph.neighbors(city.lower())
+        print("{} has {} connections.".format(city, len(city_neighbors)))
 
     def task2(self):
         """
@@ -71,14 +71,6 @@ class Lab_2:
         """
         return 0
 
-    def store_cities(f):
-        for line in f:
-            if line.startswith('' or 'from' or '-'):
-                line = ''
-        # All this does is remove the extra lines. I'm not sure how you want to get and store the rest of the data.
-
-
-    # Displays menu
     def menu(self):
         print("To find the number of cities connected to a city, enter '1'")  # task 1
         print("To find out whether or not there is a direct connection between two cities, enter '2'")  # task 2
@@ -97,15 +89,6 @@ class Lab_2:
                 self.task4()
             else:
                 print("That is not a valid choice. Please pick again from 1, 2, 3, or 4.")
-
-
-class City_Node:
-    def __init__(self, city_name):
-        self.city = city_name
-        self.edges = []
-
-    def add_edge(self, connected_node, weight):
-        self.edges.add((connected_node, weight))
 
 if __name__ == "__main__":
     the_lab = Lab_2("city1.txt")
