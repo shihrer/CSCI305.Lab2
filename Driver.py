@@ -23,14 +23,14 @@ class Lab_2:
         Builds the graph from a given file name.
         """
         for edge in self.read_file(file_name):
-            self.graph.add_edge(edge[0],edge[1],object=edge[2])
+            self.graph.add_edge(edge[0],edge[1],weight=edge[2])
 
     @staticmethod
     def read_file(file):
         """
         Creates a generator for reading a file line by line.
         :param file: Name of file to open.
-        :return: Three tuple (Origin, Destination, Miles)
+        :return: Three tuple (Origin, Destination, Miles) from file
         """
         with open(file, "r") as the_file:
             for line in the_file:
@@ -42,9 +42,11 @@ class Lab_2:
     def task1(self, city):
         """
         Find the number of cities directly connected to a given city.
+        :param city:
+        :return:
         """
         city_neighbors = self.graph.neighbors(city.lower())
-        print("{} has {} connections.".format(city, len(city_neighbors)))
+        return "{} has {} connections.".format(city, len(city_neighbors))
 
     def task2(self, source, destination):
         """
@@ -85,7 +87,19 @@ class Lab_2:
         :return: Yes/No string and solution
         """
 
-        return 0
+        try:
+            path = nx.shortest_path(self.graph, source, destination,weight="weight")
+            total_distance = self.get_distance(path)
+            return "YES\n{}\nDistance: {}".format(path, total_distance)
+        except nx.NetworkXNoPath:
+            return "NO"
+
+    def get_distance(self,path):
+        total = 0
+        for i in range(0, len(path) - 1):
+            total += self.graph.get_edge_data(path[i],path[i+1])["weight"]
+
+        return total
 
     def menu(self):
         while True:
@@ -117,7 +131,10 @@ class Lab_2:
 
                 print(self.task3(source, destination, int(int_input)))
             elif choice == '4':
-                self.task4()
+                source = input("Enter a source city > ")
+                destination = input("Enter a destination city > ")
+
+                print(self.task4(source, destination))
             elif choice.lower() == 'e':
                 sys.exit()
             else:
