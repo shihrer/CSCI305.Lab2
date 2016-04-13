@@ -110,7 +110,7 @@ class Lab_2:
 
         try:
             # Shortest path is by length of nodes.  If shortest path isn't <= d, no path will be.
-            path = nx.shortest_path(self.graph, source, destination)
+            path = nx.shortest_path(self.graph, source.lower(), destination.lower())
             k = len(path) - 1 # compute K
 
             if k <= d: # Compare K and D
@@ -133,7 +133,7 @@ class Lab_2:
 
         try:
             # Just find the shortest path.
-            path = nx.shortest_path(self.graph, source, destination,weight="weight")
+            path = nx.shortest_path(self.graph, source.lower(), destination.lower(),weight="weight")
             total_distance = self.get_distance(path)
             return "YES\n{}\nDistance: {}".format(path, total_distance)
         # If there are no paths, say "NO"
